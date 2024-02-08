@@ -82,7 +82,6 @@ func (c Calendar) NextEvent(events []t.Event) *t.Event {
 
 	now := time.Now().Unix()
 
-	// TODO: Google and others doesn't come back sorted where office does....
 	sort.Slice(events, func(i, j int) bool {
 		return events[i].StartTime < events[j].StartTime
 	})
