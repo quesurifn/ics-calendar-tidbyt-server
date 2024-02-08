@@ -10,7 +10,9 @@ import (
 	"github.com/gofiber/contrib/fiberzap"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/limiter"
-	"github.com/quesurifn/tidbyt-ics-server/pkg/config"
+	c "github.com/quesurifn/ics-calendar-tidbyt-server/calendar"
+	h "github.com/quesurifn/ics-calendar-tidbyt-server/handlers"
+	"github.com/quesurifn/ics-calendar-tidbyt-server/pkg/config"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 )
@@ -44,6 +46,15 @@ var serverCmd = &cobra.Command{
 
 		app.Use(fiberLimiter)
 		app.Use(fiberLogger)
+
+		cal := c.Calendar{}
+		h := h.Handlers{
+			Logger:   logger,
+			Calendar: &cal,
+		}
+
+		app.Get("/", h.RootHandler)
+		app.Post("/ics/next-event", h.NextEventHandler)
 
 		defer func() {
 			err := logger.Sync()

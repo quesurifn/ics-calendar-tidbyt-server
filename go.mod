@@ -1,10 +1,16 @@
-module github.com/quesurifn/tidbyt-ics-calendar
+module github.com/quesurifn/ics-calendar-tidbyt-server
 
 go 1.21.6
 
 require (
-	github.com/BurntSushi/toml v1.3.2 // indirect
+	github.com/BurntSushi/toml v1.3.2
+	gopkg.in/yaml.v2 v2.4.0
+)
+
+require (
+	github.com/ChannelMeter/iso8601duration v0.0.0-20150204201828-8da3af7a2a61 // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
+	github.com/apognu/gocal v0.9.0 // indirect
 	github.com/go-resty/resty/v2 v2.11.0 // indirect
 	github.com/gofiber/contrib/fiberzap v1.0.2 // indirect
 	github.com/gofiber/contrib/fiberzap/v2 v2.1.2 // indirect
@@ -29,5 +35,4 @@ require (
 	go.uber.org/zap v1.26.0 // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sys v0.17.0 // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

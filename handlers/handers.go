@@ -1,11 +1,11 @@
 package handlers
 
-import "github.com/gofiber/fiber/v3"
+import (
+	c "github.com/quesurifn/ics-calendar-tidbyt-server/calendar"
+	"go.uber.org/zap"
+)
 
-func RootHandler(c fiber.Ctx) error {
-	return c.SendString("Welcome to the Tidbyt ICS Server!")
-}
-
-func IcsHandler(c fiber.Ctx) error {
-	return c.SendString("ICS")
+type Handlers struct {
+	Logger   *zap.Logger
+	Calendar *c.Calendar
 }
