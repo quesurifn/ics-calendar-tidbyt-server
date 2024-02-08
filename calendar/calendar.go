@@ -81,6 +81,7 @@ func (c Calendar) NextEvent(events []t.Event) *t.Event {
 
 	now := time.Now().Unix()
 
+	// TODO: Google and others doesn't come back sorted where office does....
 	next = events[0]
 
 	fiveMinutesFromStart := next.StartTime - 5*60
