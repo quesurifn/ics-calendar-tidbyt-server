@@ -1,6 +1,7 @@
 package calendar
 
 import (
+	"sort"
 	"strings"
 	"time"
 
@@ -82,6 +83,9 @@ func (c Calendar) NextEvent(events []t.Event) *t.Event {
 	now := time.Now().Unix()
 
 	// TODO: Google and others doesn't come back sorted where office does....
+	sort.Slice(events, func(i, j int) bool {
+		return events[i].StartTime < events[j].StartTime
+	})
 	next = events[0]
 
 	fiveMinutesFromStart := next.StartTime - 5*60
