@@ -7,9 +7,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/gofiber/contrib/fiberzap"
-	"github.com/gofiber/fiber/v3"
-	"github.com/gofiber/fiber/v3/middleware/limiter"
+	"github.com/gofiber/contrib/fiberzap/v2"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
 	c "github.com/quesurifn/ics-calendar-tidbyt-server/calendar"
 	h "github.com/quesurifn/ics-calendar-tidbyt-server/handlers"
 	"github.com/quesurifn/ics-calendar-tidbyt-server/pkg/config"
@@ -29,15 +29,15 @@ var serverCmd = &cobra.Command{
 			Logger: logger,
 		})
 		fiberLimiter := limiter.New(limiter.Config{
-			Next: func(c fiber.Ctx) bool {
+			Next: func(c *fiber.Ctx) bool {
 				return c.IP() == "127.0.0.1"
 			},
 			Max:        20,
 			Expiration: 30 * time.Second,
-			KeyGenerator: func(c fiber.Ctx) string {
+			KeyGenerator: func(c *fiber.Ctx) string {
 				return c.Get("x-forwarded-for")
 			},
-			LimitReached: func(c fiber.Ctx) error {
+			LimitReached: func(c *fiber.Ctx) error {
 				return c.JSON(fiber.Map{
 					"error": "Too many requests",
 				})
@@ -47,7 +47,23 @@ var serverCmd = &cobra.Command{
 		app.Use(fiberLimiter)
 		app.Use(fiberLogger)
 
-		cal := c.Calendar{}
+		cal := c.Calendar{
+			Logger: logger,
+			TZMap: map[string]string{
+				"Hawaii Standard Time":     "Pacific/Honolulu",
+				"Alaskan Standard Time":    "America/Anchorage",
+				"Alaskan Daylight Time":    "America/Anchorage",
+				"SA Pacific Standard Time": "America/Bogota",
+				"Pacific Standard Time":    "America/Los_Angeles",
+				"Pacific Daylight Time":    "America/Los_Angeles",
+				"Central Standard Time":    "America/Chicago",
+				"Central Daylight Time":    "America/Chicago",
+				"Mountain Standard Time":   "America/Denver",
+				"Mountain Daylight Time":   "America/Denver",
+				"Eastern Standard Time":    "America/New_York",
+				"Eastern Daylight Time":    "America/New_York",
+			},
+		}
 		h := h.Handlers{
 			Logger:   logger,
 			Calendar: &cal,

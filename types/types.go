@@ -1,10 +1,14 @@
 package types
 
 type Event struct {
-	Name      string
-	StartTime int64
-	EndTime   int64
-	Location  *string
+	Name              string
+	StartTime         int64
+	EndTime           int64
+	Location          *string
+	TenMinuteWarning  bool
+	FiveMinuteWarning bool
+	OneMinuteWarning  bool
+	InProgress        bool
 }
 
 type BaseResponse[t any] struct {
@@ -13,8 +17,9 @@ type BaseResponse[t any] struct {
 }
 
 type IcsRequest struct {
-	ICSUrl string `json:"icsUrl"`
-	TZ     string `json:"tz"`
+	ICSUrl         string `json:"icsUrl"`
+	ShowInProgress bool   `json:"showInProgress"`
+	TZ             string `json:"tz"`
 }
 
 type IcsResponse struct {
